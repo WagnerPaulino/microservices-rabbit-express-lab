@@ -12,9 +12,9 @@ export default class RabbitmqServer {
         this.conn = await connect(this.uri);
         console.log("connection " + this.uri);
         this.channel = await this.conn.createChannel();
-        this.channel.assertQueue(QUEUE_NAME);
-        this.channel.assertExchange(EXCHANGE_NAME, "fanout", { durable: false });
-        this.channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, '*');
+        await this.channel.assertQueue(QUEUE_NAME);
+        await this.channel.assertExchange(EXCHANGE_NAME, "fanout", { durable: false });
+        await this.channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, '*');
         console.log("Connection successful");
 
     }
