@@ -1,4 +1,5 @@
 import { Connection, Channel, connect, Message } from "amqplib";
+import { EXCHANGE_NAME, QUEUE_NAME } from "../config/config-server";
 
 export default class RabbitmqServer {
     private conn!: Connection;
@@ -8,7 +9,13 @@ export default class RabbitmqServer {
 
     async start(): Promise<void> {
         this.conn = await connect(this.uri);
+        console.log("connection " + this.uri);
         this.channel = await this.conn.createChannel();
+        await this.channel.assertQueue(QUEUE_NAME);
+        await this.channel.assertExchange(EXCHANGE_NAME, "fanout", { durable: false });
+        await this.channel.bindQueue(QUEUE_NAME, EXCHANGE_NAME, '*');
+        console.log("Connection successful");
+
     }
 
     async publishInQueue(queue: string, message: string) {
