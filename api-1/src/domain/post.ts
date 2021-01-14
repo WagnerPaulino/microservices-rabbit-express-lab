@@ -9,7 +9,7 @@ export class Post {
     title?: string;
     @Column()
     content?: string;
-    @Column()
+    @Column({ nullable: true })
     createdAt?: Date;
 
 }

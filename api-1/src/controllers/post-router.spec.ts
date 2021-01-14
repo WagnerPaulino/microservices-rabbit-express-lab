@@ -6,9 +6,10 @@ import 'mocha';
 chai.use(chaiHttp);
 
 describe('Post Test', () => {
-    it('should return response on call', async () => {
-        const res = await chai.request(app).get('/api/posts');
+    it('should return a Post with id', async () => {
+        const appData = await app;
+        const res = await chai.request(appData.server).get('/api/posts');
         chai.expect(res.status).to.eql(200);
-        chai.expect(res.body.ok).to.eq(true);
+        chai.expect(!!res.body.id).eq(true);
     })
 })
