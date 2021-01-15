@@ -16,11 +16,11 @@ const initRabbit = async () => {
     await rabbit.start();
 }
 
-postRouter.get('/posts', async (_req: Request, res: Response) => {
+postRouter.post('/posts', async (req: Request, res: Response) => {
     await initRabbit();
     await rabbit.publishInExchange(EXCHANGE_NAME, QUEUE_NAME, 'hello');
     const repository = getRepository(Post);
-    return res.send(await repository.save({ title: 'teste', content: 'teste' }));
+    return res.send(await repository.save(req.body));
 })
 
 export default postRouter;

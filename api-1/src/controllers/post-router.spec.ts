@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 describe('Post Test', () => {
     it('should return a Post with id', async () => {
         const appData = await app;
-        const res = await chai.request(appData.server).get('/api/posts');
+        const res = await chai.request(appData.server).post('/api/posts').send({ title: 'teste', content: 'teste' });
         chai.expect(res.status).to.eql(200);
         chai.expect(!!res.body.id).eq(true);
     })
