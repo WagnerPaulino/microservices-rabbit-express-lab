@@ -5,11 +5,11 @@ import { EXCHANGE_NAME } from './config/config-server';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @MessagePattern(EXCHANGE_NAME)
   getNotifications(@Payload() data: number[], @Ctx() context: RmqContext) {
-    console.log(`Pattern: ${context.getPattern()}`);
+    console.log(`Pattern: ${context.getPattern()}, data: ${data}`);
   }
-  
+
 }
