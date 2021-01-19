@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { EXCHANGE_NAME } from './config/config-server';
 import { ApiResponse } from '@nestjs/swagger';
+import document from './main'
 
 @Controller()
 export class AppController {
@@ -14,4 +15,11 @@ export class AppController {
     await this.clientProxy.emit(EXCHANGE_NAME, 'hello').toPromise();
     return this.appService.getHello();
   }
+
+  @Get('openapi')
+  @ApiResponse({ status: 200, description: 'Return a openapi as json.' })
+  async getOpenApiJson() {
+    return (await document)
+  }
+
 }

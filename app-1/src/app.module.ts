@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QUEUE_NAME } from './config/config-server';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QUEUE_NAME } from './config/config-server';
           }
         },
       }]),
+    TypeOrmModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],
