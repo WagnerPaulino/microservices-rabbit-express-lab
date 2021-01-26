@@ -4,6 +4,8 @@ import RabbitmqServer from "../rabbitmq/rabbitmq-server";
 import { getRepository } from "typeorm";
 import { Post } from "../domain/post";
 
+const baseUrl = '/posts'
+
 const postRouter = Router();
 
 let rabbit: RabbitmqServer;
@@ -16,7 +18,12 @@ const initRabbit = async () => {
     await rabbit.start();
 }
 
-postRouter.post('/posts', async (req: Request, res: Response) => {
+postRouter.get(baseUrl, async (_req: Request, res: Response) => {
+    const repository = getRepository(Post);
+    return res.send(await repository.find());
+})
+
+postRouter.post(baseUrl, async (req: Request, res: Response) => {
     await initRabbit();
     await rabbit.publishInExchange(EXCHANGE_NAME, QUEUE_NAME, JSON.stringify(req.body));
     const repository = getRepository(Post);
