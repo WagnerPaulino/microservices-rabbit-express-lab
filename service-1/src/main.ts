@@ -4,7 +4,8 @@ import { AppModule } from './app.module';
 import { QUEUE_NAME } from './config/config-server';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+  const app = await NestFactory.create(AppModule);
+  app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
       urls: ['amqp://admin:admin@localhost:5672'],
@@ -14,7 +15,7 @@ async function bootstrap() {
       },
     },
   });
-  app.listen(() => console.log('Microservice is listening'));
+  await app.startAllMicroservicesAsync();
+  await app.listen(3100);
 }
 bootstrap();
-
