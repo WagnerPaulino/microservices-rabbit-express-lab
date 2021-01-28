@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservices-rabbit-express-lab-deployment
+  labels:
+    app: microservices-rabbit-express-lab
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: microservices-rabbit-express-lab
+  template:
+    metadata:
+      labels:
+        app: microservices-rabbit-express-lab
+    spec:
+      containers:
+      - name: api-1
+        image: api-1
+        ports:
+        - containerPort: 3000
