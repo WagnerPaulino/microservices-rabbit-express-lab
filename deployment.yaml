@@ -15,7 +15,9 @@ spec:
         app: microservices-rabbit-express-lab
     spec:
       containers:
-      - name: api-1
-        image: api-1
-        ports:
-        - containerPort: 3000
+        - name: api-1
+          image: api-1
+          ports:
+            - containerPort: 3000
+        - name: service-1
+          image: service-1
