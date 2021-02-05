@@ -1,7 +1,7 @@
 import { ApiResponse } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { ClientProxy } from '@nestjs/microservices';
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Param } from '@nestjs/common';
 import { Postagem } from 'src/domain/postagem';
 import { EXCHANGE_NAME } from 'src/config/config-server';
 
@@ -10,7 +10,7 @@ export class PostController {
   constructor(
     @Inject('POST_MESSAGES') private clientProxy: ClientProxy,
     private postService: PostService,
-  ) {}
+  ) { }
 
   @Post()
   @ApiResponse({ status: 200, description: 'Save a post.' })
@@ -25,4 +25,11 @@ export class PostController {
   async findPost() {
     return await this.postService.findPost();
   }
+
+  @Get('/:id')
+  @ApiResponse({ status: 200, description: 'One posts.' })
+  async findPostById(@Param('id') id: number) {
+    return await this.postService.findPostById(id);
+  }
+
 }
